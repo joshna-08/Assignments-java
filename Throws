@@ -1,0 +1,63 @@
+import java.util.Scanner;
+
+class InvalidUserException extends Exception {
+    InvalidUserException(String message) {
+        super(message);
+    }
+}
+
+class ATM {
+    int acc_number = 12345678;
+    int password = 1111;
+    String name_accounter = "Chinni";
+
+    int AN, PWD;
+    String AC;
+
+    Scanner s = new Scanner(System.in);
+
+    void acceptInput() {
+        System.out.println("Enter the account number: ");
+        AN = s.nextInt();
+
+        System.out.println("Enter the password: ");
+        PWD = s.nextInt();
+
+        System.out.println("Enter the account holder name: ");
+        AC = s.next();
+    }
+
+    void verify() throws InvalidUserException {
+        if (acc_number == AN && password == PWD && name_accounter.equals(AC)) {
+            System.out.println("Collect your money 💰");
+        } else {
+            throw new InvalidUserException("Invalid user details. Try again!");
+        }
+    }
+}
+
+class Bank {
+    void initiate() {
+        ATM atm = new ATM();
+
+        for (int i = 1; i <= 3; i++) {
+            try {
+                atm.acceptInput();
+                atm.verify();
+                return; // successful login
+            } catch (InvalidUserException e) {
+                System.out.println(e.getMessage());
+                if (i == 3) {
+                    System.out.println("Card blocked ❌");
+                }
+            }
+        }
+    }
+}
+
+public class CustomExceptionDemo {
+    public static void main(String[] args) {
+        Bank b = new Bank();
+        b.initiate();
+    }
+}
