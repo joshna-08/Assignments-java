@@ -1,0 +1,80 @@
+ import java.util.Scanner;
+
+class UserPasswordException extends Exception
+{
+   public String getMessage()
+  {
+     return "Invalid user details.Try again";
+  }
+}
+
+class UserDetails
+{
+   String user_name="joshna";
+   int password=1111;
+   String US;
+   int PWD;
+   void acceptInput()
+   {
+     Scanner s=new Scanner(System.in);
+     System.out.println("Enter the username:");
+     US=s.next();
+     System.out.println("Enter the password:");
+     PWD=s.nextInt();
+    }
+    void verify() throws UserPasswordException
+    {
+      if(user_name.equals(US) && password==PWD)
+      {
+         System.out.println("login successful");
+      }
+      else
+      {
+         UserPasswordException i=new UserPasswordException(); 
+         System.out.println(i.getMessage());
+         throw i;
+      }
+    }
+}
+class Email
+{
+    void initiate()
+    {
+       UserDetails ud=new UserDetails();
+       try
+       {
+          ud.acceptInput();
+          ud.verify();
+       }
+       catch(Exception e)
+       {
+          try
+          {
+             ud.acceptInput();
+             ud.verify();
+          }
+          catch(Exception a)
+          {
+             try
+             {
+                ud.acceptInput();
+                ud.verify();
+             }
+             catch(Exception c)
+             {
+                System.out.println("login blocked:");
+                System.exit(0);
+             }
+          }
+       }
+    }
+}
+
+public class EmailException
+{
+   public static void main(String [] args)
+   {
+      Email em=new Email();
+      em.initiate();
+   }
+}
